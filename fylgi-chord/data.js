@@ -71,11 +71,13 @@ export const i18n = {
       },
     ],
     source: 'Heimild: <a href="https://heimildin.is/" target="_blank" style="color: inherit; text-decoration: underline;">Gallup apríl 2026 · Heimildin, 11. maí 2026</a>',
-    credit: 'Hannað af <a href="mailto:Victor.Blaer@fyi-lab.is" style="color: inherit; text-decoration: underline;">Victor.Blaer@fyi-lab.is</a> | <a href="https://fyi-lab.is" target="_blank" style="color: inherit; text-decoration: underline;">fyi-lab.is</a><br><small>* Nafnið yfir þetta hugtak fundið af hundinum mínum Maximus og mér.</small>',
+    credit: 'Hannað og þróað af Victori Blæ<br><br><small>* Nafnið yfir þetta hugtak fundið af hundinum mínum Maximus og mér.</small>',
     didNotVote: 'Kusu ekki',
     tooltipArrow: 'kustu → ætla að kjósa',
     filterAll:  'Allir',
     filterTop3: 'Efstu 3',
+    btnVisit: 'Skoða fyi-lab.is',
+    btnRestart: 'Byrja aftur',
   },
 
   en: {
@@ -106,11 +108,13 @@ export const i18n = {
       },
     ],
     source: 'Source: <a href="https://heimildin.is/" target="_blank" style="color: inherit; text-decoration: underline;">Gallup April 2026</a>',
-    credit: 'Design by <a href="mailto:Victor.Blaer@fyi-lab.is" style="color: inherit; text-decoration: underline;">Victor.Blaer@fyi-lab.is</a> | <a href="https://fyi-lab.is" target="_blank" style="color: inherit; text-decoration: underline;">fyi-lab.is</a><br><small>* The name for this concept was invented by my dog Maximus and me.</small>',
+    credit: 'Designed and developed by Victor Blær<br><br><small>* The name for this concept was invented by my dog Maximus and me.</small>',
     didNotVote: 'Did not vote',
     tooltipArrow: 'voted → intend to vote',
     filterAll:  'All',
     filterTop3: 'Top 3',
+    btnVisit: 'Visit fyi-lab.is',
+    btnRestart: 'Start Over',
   },
 };
 

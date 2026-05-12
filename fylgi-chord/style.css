@@ -629,3 +629,79 @@ p { color: var(--text-muted); }
   padding-left: 1rem;
   color: var(--text-primary);
 }
+
+/* ─── End Screen ─────────────────────────────────────────────── */
+#end-screen {
+  padding: 6rem 2rem 8rem;
+  background-color: var(--bg);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.end-container {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.end-credits {
+  font-family: 'Faustina', serif;
+  color: var(--text-primary);
+}
+
+.end-credits .credit-text {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.end-credits .source-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.end-actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background-color: var(--text-primary);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+}

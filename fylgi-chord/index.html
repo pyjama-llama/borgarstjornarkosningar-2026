@@ -86,11 +86,19 @@
   <!-- ── Progress dots (desktop sidebar) ──────────────────────────────── -->
   <nav id="progress-dots" aria-label="Framvinda sögu"></nav>
 
-  <!-- ── Site footer ───────────────────────────────────────────────────── -->
-  <footer id="site-footer">
-    <span class="source" id="footer-source">Heimild: Gallup apríl 2026 · Heimildin, 11. maí 2026</span>
-    <span class="credit" id="footer-credit">Greining: Aðalsteinn Kjartansson</span>
-  </footer>
+  <!-- ── End Screen ─────────────────────────────────────────────────────── -->
+  <section id="end-screen">
+    <div class="end-container">
+      <div class="end-credits">
+        <p class="credit-text" id="footer-credit">Hannað og þróað af Victori Blæ</p>
+        <p class="source-text" id="footer-source">Heimild: Gallup apríl 2026</p>
+      </div>
+      <div class="end-actions">
+        <a href="https://fyi-lab.is" target="_blank" class="btn btn-primary" id="btn-visit">Skoða fyi-lab.is</a>
+        <button class="btn btn-ghost" id="btn-restart">Byrja aftur</button>
+      </div>
+    </div>
+  </section>
 
   <!-- ── App bootstrap ─────────────────────────────────────────────────── -->
   <script type="module">
@@ -121,6 +129,13 @@
 
     document.getElementById('footer-source').innerHTML = t.source;
     document.getElementById('footer-credit').innerHTML = t.credit;
+    document.getElementById('btn-visit').textContent = t.btnVisit;
+    document.getElementById('btn-restart').textContent = t.btnRestart;
+
+    // Reset button functionality
+    document.getElementById('btn-restart').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     const toggle = document.getElementById('lang-toggle');
     toggle.textContent = t.langLabel;
