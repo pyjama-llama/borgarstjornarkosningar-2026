@@ -55,7 +55,7 @@ export const i18n = {
       },
       {
         heading: 'Hverjir halda kjósendum sínum?',
-        body:    'Miðflokkurinn (81%) og Sjálfstæðisflokkurinn (73%) eru öflugastir í að halda í eigin kjósendur — svokölluð <strong><em>„Tryggðartala“</em></strong> (hugtak búið til af Victori Blæ). Samfylkingin (62%) á líka traustan kjósendahóp. Sósíalistaflokkurinn (16%) og Píratar (26%) eru hins vegar í erfiðari stöðu — kjósendur þeirra eru á hreyfingu.',
+        body:    'Miðflokkurinn (81%) og Sjálfstæðisflokkurinn (73%) eru öflugastir í að halda í eigin kjósendur — svokölluð <strong><em>„Tryggðartala“</em></strong>. Samfylkingin (62%) á líka traustan kjósendahóp. Sósíalistaflokkurinn (16%) og Píratar (26%) eru hins vegar í erfiðari stöðu — kjósendur þeirra eru á hreyfingu.',
       },
       {
         heading: 'Framsóknarflokknum blæðir til hægri',

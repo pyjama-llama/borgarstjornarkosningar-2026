@@ -204,12 +204,12 @@ export function initChord(t) {
     .style('opacity', 1)
     .style('pointer-events', 'none');
 
-  const startX = -innerR * 0.9;
-  const startY = -innerR * 0.8;
-  const cX = -innerR * 0.4;
-  const cY = -innerR * 0.9;
-  const endX = -innerR * 0.3;
-  const endY = -innerR * 0.4;
+  const startX = outerR * 0.75;
+  const startY = -outerR * 0.85;
+  const cX = outerR * 0.5;
+  const cY = -outerR * 0.8;
+  const endX = innerR * 0.5;
+  const endY = -innerR * 0.6;
 
   guideGrp.append('path')
     .attr('d', `M ${startX},${startY} Q ${cX},${cY} ${endX},${endY}`)
@@ -219,12 +219,12 @@ export function initChord(t) {
     .attr('marker-end', 'url(#arrowhead)');
 
   guideGrp.append('text')
-    .attr('x', startX - 10)
+    .attr('x', startX)
     .attr('y', startY - 10)
     .attr('fill', 'var(--text-primary)')
-    .attr('font-family', 'Faustina, serif')
-    .attr('font-size', window.innerWidth < 600 ? '16px' : '20px')
-    .attr('font-style', 'italic')
+    .attr('font-family', '"Caveat", cursive')
+    .attr('font-size', window.innerWidth < 600 ? '20px' : '26px')
+    .style('text-anchor', 'middle')
     .text(new URLSearchParams(window.location.search).get('lang') === 'en' ? 'Hover to see flows' : 'Sveimaðu yfir til að sjá flæðið');
 
   // ── Tooltip ────────────────────────────────────────────────────────────────
