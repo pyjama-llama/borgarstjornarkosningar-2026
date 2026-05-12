@@ -158,7 +158,7 @@ export function initChord(t) {
 
   const guideGrp = svg.append('g')
     .attr('id', 'hover-guide-arrow')
-    .style('opacity', 0)
+    .style('opacity', 1)
     .style('pointer-events', 'none');
 
   const startX = -innerR * 0.9;
@@ -211,17 +211,16 @@ export function initChord(t) {
       .attr('class', 'chord-data-label')
       .attr('x', d => {
         const angle = (d.source.startAngle + d.source.endAngle) / 2;
-        return (innerR - 40) * Math.sin(angle);
+        return (innerR - 50) * Math.sin(angle);
       })
       .attr('y', d => {
         const angle = (d.source.startAngle + d.source.endAngle) / 2;
-        return -(innerR - 40) * Math.cos(angle);
+        return -(innerR - 50) * Math.cos(angle);
       })
       .text(d => `${d.source.value}%`)
       .attr('fill', 'var(--surface-1)')
       .style('font-family', 'IBM Plex Mono, monospace')
       .style('font-size', '11px')
-      .style('font-weight', '600')
       .style('text-anchor', 'middle')
       .style('dominant-baseline', 'middle')
       .style('pointer-events', 'none')
@@ -244,12 +243,6 @@ export function applyBeat(beatIndex, animate = true) {
   const filterBar = document.getElementById('filter-bar');
   if (filterBar) {
     filterBar.classList.toggle('visible', !!beat.interactive);
-  }
-
-  // Show hover guide only on the interactive beat (if it hasn't been removed)
-  const guide = d3.select('#hover-guide-arrow');
-  if (!guide.empty()) {
-    guide.transition().duration(dur).style('opacity', beat.interactive ? 1 : 0);
   }
 
   switch (beat.type) {
@@ -429,6 +422,8 @@ export function applyFilter(filter, t) {
     .style('opacity', d => {
       // Don't label self-loops
       if (d.source.index === d.target.index) return 0;
+      // Don't label minor flows to prevent text overlap
+      if (d.source.value < 5) return 0;
       // Show label if chord starts or ends at the selected party
       return (d.source.index === idx || d.target.index === idx) ? 1 : 0;
     });
