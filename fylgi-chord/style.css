@@ -547,6 +547,7 @@ p { color: var(--text-muted); }
   font-size: 48px;
   margin-bottom: 0.5rem;
   color: var(--text-primary);
+  text-align: center;
 }
 
 .retention-intro {
@@ -555,6 +556,9 @@ p { color: var(--text-muted); }
   color: var(--text-muted);
   margin-bottom: 3rem;
   max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .retention-grid {
@@ -573,7 +577,7 @@ p { color: var(--text-muted); }
 }
 
 .retention-grid td {
-  padding: 0.6rem 0.25rem;
+  padding: 0.35rem 0.25rem;
   vertical-align: middle;
 }
 
@@ -590,7 +594,9 @@ p { color: var(--text-muted); }
   font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
-  width: 220px;
+  width: 190px; /* Reduced from 220px to make bars wider */
+  display: flex;
+  align-items: center;
 }
 
 .retention-grid .party-dot {
@@ -599,20 +605,33 @@ p { color: var(--text-muted); }
   height: 10px;
   border-radius: 50%;
   margin-right: 8px;
-  vertical-align: middle;
-  transform: translateY(-1px);
+  flex-shrink: 0;
 }
 
 .retention-grid .bar-cell {
   width: 100%;
+  position: relative;
+}
+
+.retention-grid .bar-cell::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 48.1%;
+  border-left: 1px dashed var(--border);
+  z-index: 0;
 }
 
 .retention-grid .bar-bg {
   width: 100%;
-  height: 10px;
+  height: 14px; /* Taller bars */
   background: transparent;
+  border: 1px solid var(--border); /* Slight border */
   border-radius: 2px;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .retention-grid .bar-fill {
@@ -633,8 +652,7 @@ p { color: var(--text-muted); }
 /* ─── End Screen ─────────────────────────────────────────────── */
 #end-screen {
   padding: 6rem 2rem 8rem;
-  background-color: var(--bg);
-  border-top: 1px solid var(--border);
+  background-color: #0f172a; /* Dark background */
   text-align: center;
 }
 
@@ -648,7 +666,7 @@ p { color: var(--text-muted); }
 
 .end-credits {
   font-family: 'Faustina', serif;
-  color: var(--text-primary);
+  color: #f8fafc;
 }
 
 .end-credits .credit-text {
@@ -660,7 +678,7 @@ p { color: var(--text-muted); }
 .end-credits .source-text {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 14px;
-  color: var(--text-muted);
+  color: #94a3b8;
 }
 
 .end-actions {
@@ -689,19 +707,19 @@ p { color: var(--text-muted); }
 }
 
 .btn-primary:hover {
-  background-color: var(--text-primary);
-  color: var(--bg);
+  background-color: #f8fafc;
+  color: #0f172a;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .btn-ghost {
   background-color: transparent;
-  color: var(--text-primary);
-  border-color: var(--border);
+  color: #f8fafc;
+  border-color: #475569;
 }
 
 .btn-ghost:hover {
-  border-color: var(--text-primary);
+  border-color: #f8fafc;
   transform: translateY(-2px);
 }

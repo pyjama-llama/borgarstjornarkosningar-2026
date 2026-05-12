@@ -77,7 +77,7 @@
   <!-- ── Retention Scoreboard ────────────────────────────────────────── -->
   <section id="retention-section">
     <div class="retention-container">
-      <h2 id="retention-title">Tryggðartöflun 2026</h2>
+      <h2 id="retention-title">Tryggðartala Tafla</h2>
       <p class="retention-intro">Hversu stór hluti kjósenda hvers flokks frá 2022 ætlar að kjósa þann flokk (eða sambærilegt framboð) aftur?</p>
       <div id="retention-table"></div>
     </div>
@@ -172,7 +172,7 @@
 
       retentionData.sort((a, b) => b.value - a.value);
 
-      document.getElementById('retention-title').textContent = t.lang === 'en' ? 'Retention Scoreboard 2026' : 'Tryggðartöflun 2026';
+      document.getElementById('retention-title').textContent = t.lang === 'en' ? 'Retention Scoreboard 2026' : 'Tryggðartala Tafla';
       
       let html = '<table class="retention-grid">';
       retentionData.forEach((d, i) => {
