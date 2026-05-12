@@ -144,7 +144,6 @@ export function initChord(t) {
   });
 
   // ── Hover Guide (Arrow) ────────────────────────────────────────────────────
-  const defs = svg.append('defs');
   defs.append('marker')
     .attr('id', 'arrowhead')
     .attr('viewBox', '0 -5 10 10')
@@ -183,8 +182,7 @@ export function initChord(t) {
     .attr('font-family', 'Faustina, serif')
     .attr('font-size', window.innerWidth < 600 ? '16px' : '20px')
     .attr('font-style', 'italic')
-    .style('text-anchor', 'middle')
-    .text(t.lang === 'en' ? 'Hover to see flows' : 'Sveimaðu yfir til að sjá flæðið');
+    .text(new URLSearchParams(window.location.search).get('lang') === 'en' ? 'Hover to see flows' : 'Sveimaðu yfir til að sjá flæðið');
 
   // ── Ribbons ────────────────────────────────────────────────────────────────
   const r = svg.append('g').attr('class', 'chord-ribbons');
