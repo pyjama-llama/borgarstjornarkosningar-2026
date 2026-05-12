@@ -161,12 +161,12 @@ export function initChord(t) {
     .style('opacity', 0)
     .style('pointer-events', 'none');
 
-  const startX = -innerRadius * 0.9;
-  const startY = -innerRadius * 0.8;
-  const cX = -innerRadius * 0.4;
-  const cY = -innerRadius * 0.9;
-  const endX = -innerRadius * 0.3;
-  const endY = -innerRadius * 0.4;
+  const startX = -innerR * 0.9;
+  const startY = -innerR * 0.8;
+  const cX = -innerR * 0.4;
+  const cY = -innerR * 0.9;
+  const endX = -innerR * 0.3;
+  const endY = -innerR * 0.4;
 
   guideGrp.append('path')
     .attr('d', `M ${startX},${startY} Q ${cX},${cY} ${endX},${endY}`)
@@ -211,11 +211,11 @@ export function initChord(t) {
       .attr('class', 'chord-data-label')
       .attr('x', d => {
         const angle = (d.source.startAngle + d.source.endAngle) / 2;
-        return (innerRadius - 40) * Math.sin(angle);
+        return (innerR - 40) * Math.sin(angle);
       })
       .attr('y', d => {
         const angle = (d.source.startAngle + d.source.endAngle) / 2;
-        return -(innerRadius - 40) * Math.cos(angle);
+        return -(innerR - 40) * Math.cos(angle);
       })
       .text(d => `${d.source.value}%`)
       .attr('fill', 'var(--surface-1)')
