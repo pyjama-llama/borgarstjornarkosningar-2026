@@ -1,0 +1,631 @@
+/* ═══════════════════════════════════════════════════════════════
+   style.css — Hvaðan kemur fylgið?
+   Design system + scrollytelling layout
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Google Fonts ────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/* ─── Design tokens ──────────────────────────────────────────── */
+/* 
+======================================================================
+  FONT SIZE REFERENCE TABLE (All values in PX for easy editing)
+======================================================================
+  Element               | CSS Selector       | Current Size
+------------------------|--------------------|------------------------
+  Body (base size)      | body               | 20px
+  Main Title            | h1                 | 64px
+  Hero Subtitle         | #hero .subtitle    | 16px
+  Hero Body Text        | .hero-body         | 24px
+  Step Card Title       | .step h2           | 32px
+  Step Card Text        | .step p            | 22px
+  Arc Labels (Outer)    | .arc-label         | 16px
+  Arc Labels (Mobile)   | .label-short       | 16px
+  Retention Labels      | .retention-label   | 36px
+  Filter Pills          | .pill              | 16px
+  Tooltip Text          | #tooltip           | 18px
+  Tooltip pct text      | #tooltip .pct      | 16px
+  Footer Text           | #site-footer       | 18px
+======================================================================
+*/
+
+:root {
+  --bg:           #f0eeea;
+  --surface:      #faf9f7;
+  --surface-2:    #e8e5e0;
+  --border:       #ccc9c4;
+  --text-primary: #1a1818;
+  --text-muted:   #6b6763;
+  --accent:       #9a6200;      /* deep amber — readable on light bg */
+  --accent-cool:  #3a7a9c;
+
+  /* Party colors */
+  --S: #c0392b;
+  --D: #2980b9;
+  --B: #27ae60;
+  --C: #f39c12;
+  --F: #8e44ad;
+  --J: #e74c3c;
+  --M: #7f8c8d;
+  --P: #1abc9c;
+  --A: #16a085;
+  --V: #2ecc71;
+  --none: #666666;
+
+  /* Layout */
+  --chart-panel-w: 52vw;
+  --text-col-w:    44vw;
+  --step-pad:      2rem;
+  --radius:        6px;
+
+  /* Transitions */
+  --t-fast:  200ms ease;
+  --t-med:   500ms ease;
+  --t-slow:  800ms ease;
+}
+
+/* ─── Reset & base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px; /* increased to 20px */
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── Typography ─────────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: 'Faustina', serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 64px;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 32px;
+  color: var(--text-primary);
+}
+
+h3 {
+  font-size: 24px;
+  color: var(--accent);
+}
+
+p { color: var(--text-muted); }
+
+/* ─── Hero Landing Page ──────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150vw;
+  height: 150vh;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+  /* Use the user-provided electoral map */
+  background-image: url('reykjavik.jpg');
+  background-position: center 30%; /* Shifted down to show city core instead of just the north edge */
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+
+#hero .subtitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.hero-body {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero-body strong {
+  color: var(--accent);
+}
+
+.scroll-prompt {
+  margin-top: 4rem;
+  font-size: 2rem;
+  color: var(--text-muted);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
+#lang-toggle {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 100;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  color: var(--accent-cool);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius);
+  transition: border-color var(--t-fast), color var(--t-fast);
+  letter-spacing: 0.05em;
+}
+
+#lang-toggle:hover {
+  border-color: var(--accent-cool);
+  color: var(--text-primary);
+}
+
+/* ─── Scrollytelling layout ──────────────────────────────────── */
+#scrolly-container {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Sticky chart panel (left) */
+#chart-sticky {
+  position: sticky;
+  top: 0;
+  width: var(--chart-panel-w);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+#dynamic-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 800ms ease, background-image 800ms ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+#chart-svg-wrapper {
+  width: 100%;
+  max-width: 700px;
+  aspect-ratio: 1;
+  position: relative;
+}
+
+#chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Beat caption below chart */
+#beat-caption {
+  margin-top: 1.2rem;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  min-height: 1.4em;
+  transition: opacity var(--t-med);
+}
+
+/* Scroll steps column (right) */
+#scroll-steps {
+  width: var(--text-col-w);
+  padding: 0 3rem;
+  flex-shrink: 0;
+}
+
+/* ─── Scroll step cards ──────────────────────────────────────── */
+.step {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--step-pad) 0;
+  opacity: 0.35;
+  transition: opacity var(--t-med);
+}
+
+.step.is-active {
+  opacity: 1;
+}
+
+.step-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.step h2 {
+  margin-bottom: 12px;
+  font-size: 32px;
+}
+
+.step p {
+  font-size: 22px;
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: 42ch;
+}
+
+/* ─── Filter pills (Beat 4 — interactive outro) ──────────────── */
+#filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.4rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-med);
+}
+
+#filter-bar.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.pill:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+.pill.active {
+  background: var(--pill-color, var(--text-primary));
+  border-color: var(--pill-color, var(--text-primary));
+  box-shadow: 0 0 8px var(--pill-color, transparent);
+  color: #fff;
+}
+
+.pill.active[data-filter="all"], .pill.active[data-filter="top3"] {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  box-shadow: none;
+}
+
+/* ─── Tooltip ────────────────────────────────────────────────── */
+#tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 18px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  max-width: 320px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  transition: opacity var(--t-fast);
+}
+
+#tooltip[hidden] { display: none; }
+
+#tooltip .from { font-weight: 500; }
+#tooltip .arrow { color: var(--accent); margin: 0 0.35em; }
+#tooltip .to   { font-weight: 500; }
+#tooltip .pct  { color: var(--accent-cool); margin-top: 6px; font-size: 16px; }
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+#site-footer {
+  padding: 3rem 2rem;
+  background-color: var(--surface-2);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+#site-footer .source {
+  font-size: 16px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+#site-footer .credit {
+  font-family: 'Faustina', serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--text-primary);
+}
+
+/* ─── Arc labels (D3 SVG text) ───────────────────────────────── */
+.arc-label {
+  font-family: 'Faustina', serif;
+  font-size: 16px;
+  font-weight: 600;
+  fill: var(--text-primary);
+  pointer-events: none;
+  transition: opacity var(--t-med);
+}
+
+.arc-label.dimmed {
+  opacity: 0.25;
+}
+
+.label-short { display: none; }
+
+@media (max-width: 640px) {
+  .label-full { display: none; }
+  .label-short { display: inline; }
+}
+
+/* ─── Retention Labels (Beat 1) ──────────────────────────────── */
+.retention-label {
+  font-family: 'Faustina', serif;
+  font-size: 36px;
+  font-weight: 700;
+  pointer-events: none;
+  transition: opacity var(--t-med);
+}
+
+/* ─── Chord ribbons ──────────────────────────────────────────── */
+.chord {
+  transition: opacity var(--t-med);
+  cursor: pointer;
+}
+
+.chord:hover { opacity: 0.9 !important; }
+
+/* ─── Arc groups ─────────────────────────────────────────────── */
+.arc-path {
+  transition: opacity var(--t-med), stroke-width var(--t-med);
+  stroke: var(--bg);
+  stroke-width: 1;
+}
+
+/* ─── Progress indicator ─────────────────────────────────────── */
+#progress-dots {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 50;
+}
+
+.progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+
+.progress-dot.active {
+  background: var(--accent);
+  transform: scale(1.4);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ─── Mobile (≤640px) ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  #hero {
+    min-height: auto;
+    padding: 4rem 1.5rem;
+  }
+  
+  .scroll-prompt {
+    margin-top: 2rem;
+  }
+
+  #scrolly-container {
+    flex-direction: column;
+  }
+
+  #chart-sticky {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem;
+    top: 0;
+  }
+
+  #chart-svg-wrapper {
+    max-width: 100%;
+  }
+
+  #scroll-steps {
+    width: 100%;
+    padding: 0 1.25rem;
+  }
+
+  .step {
+    min-height: 70vh;
+    opacity: 1;
+  }
+
+  #progress-dots { display: none; }
+  #lang-toggle { position: static; margin-top: 0.5rem; display: inline-block; }
+  #site-footer { padding: 1.5rem 1.25rem; }
+}
+
+/* ─── Tablet (641–900px) ─────────────────────────────────────── */
+@media (min-width: 641px) and (max-width: 900px) {
+  :root {
+    --chart-panel-w: 48vw;
+    --text-col-w:    48vw;
+  }
+
+  #scroll-steps { padding: 0 1.5rem; }
+}
+
+/* ─── Retention Section ───────────────────────────────────────── */
+#retention-section {
+  padding: 8rem 2rem;
+  background-color: var(--surface-1);
+  border-top: 1px solid var(--border);
+}
+
+.retention-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#retention-title {
+  font-family: 'Faustina', serif;
+  font-size: 48px;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.retention-intro {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 600px;
+}
+
+.retention-grid {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid var(--text-primary);
+  border-bottom: 2px solid var(--text-primary);
+}
+
+.retention-grid tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.retention-grid tr:last-child {
+  border-bottom: none;
+}
+
+.retention-grid td {
+  padding: 0.6rem 0.25rem;
+  vertical-align: middle;
+}
+
+.retention-grid .rank {
+  width: 30px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.retention-grid .party-cell {
+  font-family: 'Faustina', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 220px;
+}
+
+.retention-grid .party-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+
+.retention-grid .bar-cell {
+  width: 100%;
+}
+
+.retention-grid .bar-bg {
+  width: 100%;
+  height: 10px;
+  background: transparent;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.retention-grid .bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.retention-grid .value-cell {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: right;
+  padding-left: 1rem;
+  color: var(--text-primary);
+}

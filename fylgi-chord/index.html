@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hvaðan kemur fylgið? — Reykjavík 2026</title>
+  <meta name="description" content="Kjósendaflæði milli borgarstjórnarkosninga 2022 og 2026. Sjálfvirkur flæðiritningur byggður á Gallup könnun apríl 2026." />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Hvaðan kemur fylgið? — Reykjavík 2026" />
+  <meta property="og:description" content="Sjálfvirkur flæðiritningur kjósenda milli 2022 og 2026" />
+  <meta property="og:type"        content="article" />
+  <meta property="og:url"         content="https://pyjama-llama.github.io/fylgi-chord/" />
+
+  <!-- Fonts + Design system -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- D3 v7 -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <!-- Scrollama -->
+  <script src="https://cdn.jsdelivr.net/npm/scrollama@3/build/scrollama.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ── Language Toggle ────────────────────────────────────────────────── -->
+  <a id="lang-toggle" href="?lang=en">English</a>
+
+  <!-- ── Hero Landing Page ──────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="subtitle" id="main-subtitle">Kjósendaflæði 2022 → 2026 · Reykjavíkurborg</p>
+      <h1 id="main-title">Hvaðan kemur fylgið?</h1>
+      <p class="hero-body" id="hero-body">
+        Kosningar nálgast og landslagið í borginni er að breytast. 
+        Kjósendur eru á hreyfingu. Sumir flokkar halda sínu fólki, 
+        aðrir blæða fylgi, og ný framboð soga til sín óánægjuraddir.
+        <br><br>
+        <strong>Skrunaðu niður</strong> til að kafa ofan í gögnin og sjá 
+        hvert fylgið raunverulega flæðir.
+      </p>
+      <div class="scroll-prompt">↓</div>
+    </div>
+  </section>
+
+  <!-- ── Main scrollytelling layout ───────────────────────────────────── -->
+  <main id="scrolly-container">
+
+    <!-- Sticky chart panel (left on desktop, top on mobile) -->
+    <div id="chart-sticky">
+      <div id="dynamic-bg"></div>
+      <div id="chart-svg-wrapper">
+        <svg id="chart" role="img" aria-label="Chord diagram sýnir kjósendaflæði milli flokka 2022 og 2026"></svg>
+      </div>
+      <div id="beat-caption" aria-live="polite"></div>
+    </div>
+
+    <!-- Scrolling text steps (right on desktop) -->
+    <div id="scroll-steps">
+      <!-- Populated by scroll.js → buildStepCards() -->
+    </div>
+
+  </main>
+
+  <!-- ── Tooltip ───────────────────────────────────────────────────────── -->
+  <div id="tooltip" aria-live="polite" hidden>
+    <span class="from"></span>
+    <span class="arrow">→</span>
+    <span class="to"></span>
+    <p class="pct"></p>
+  </div>
+
+  <!-- ── Retention Scoreboard ────────────────────────────────────────── -->
+  <section id="retention-section">
+    <div class="retention-container">
+      <h2 id="retention-title">Tryggðartöflun 2026</h2>
+      <p class="retention-intro">Hversu stór hluti kjósenda hvers flokks frá 2022 ætlar að kjósa þann flokk (eða sambærilegt framboð) aftur?</p>
+      <div id="retention-table"></div>
+    </div>
+  </section>
+
+  <!-- ── Progress dots (desktop sidebar) ──────────────────────────────── -->
+  <nav id="progress-dots" aria-label="Framvinda sögu"></nav>
+
+  <!-- ── Site footer ───────────────────────────────────────────────────── -->
+  <footer id="site-footer">
+    <span class="source" id="footer-source">Heimild: Gallup apríl 2026 · Heimildin, 11. maí 2026</span>
+    <span class="credit" id="footer-credit">Greining: Aðalsteinn Kjartansson</span>
+  </footer>
+
+  <!-- ── App bootstrap ─────────────────────────────────────────────────── -->
+  <script type="module">
+    import { i18n } from './data.js';
+    import { initChord } from './chord.js';
+    import { initScroll } from './scroll.js';
+
+    // ── Language detection ────────────────────────────────────────────────
+    const lang = new URLSearchParams(window.location.search).get('lang') || 'is';
+    const t    = i18n[lang];
+
+    // Update <html lang>
+    document.documentElement.lang = lang;
+
+    // ── Inject i18n into static elements ──────────────────────────────────
+    document.getElementById('main-title').textContent    = t.title;
+    document.getElementById('main-subtitle').textContent = t.subtitle;
+    
+    if (lang === 'en') {
+      document.getElementById('hero-body').innerHTML = `
+        Elections are approaching and the political landscape in the city is shifting. 
+        Voters are on the move. Some parties are holding their base, others are bleeding 
+        support, and new alliances are drawing in dissatisfied voices.
+        <br><br>
+        <strong>Scroll down</strong> to dive into the data and see exactly where the votes are flowing.
+      `;
+    }
+
+    document.getElementById('footer-source').innerHTML = t.source;
+    document.getElementById('footer-credit').innerHTML = t.credit;
+
+    const toggle = document.getElementById('lang-toggle');
+    toggle.textContent = t.langLabel;
+    toggle.href        = t.langUrl;
+
+    // ── Init chart + scroll ───────────────────────────────────────────────
+    initChord(t);
+    initScroll();
+    buildRetentionTable(t);
+
+    async function buildRetentionTable(t) {
+      const container = document.getElementById('retention-table');
+      const { PARTIES, MATRIX } = await import('./data.js'); // Ensure we have data
+      
+      const retentionData = PARTIES
+        .filter(p => p.id !== 'none' && p.id !== 'A' && p.id !== 'V')
+        .map(p => {
+          const idx = PARTIES.indexOf(p);
+          return {
+            name: p.name,
+            color: p.color,
+            value: MATRIX[idx][idx]
+          };
+        });
+
+      // Special case for Vinstri græn (V -> A transition)
+      const vIdx = PARTIES.findIndex(p => p.id === 'V');
+      const aIdx = PARTIES.findIndex(p => p.id === 'A');
+      retentionData.push({
+        name: 'Vinstri græn',
+        color: PARTIES[vIdx].color,
+        value: MATRIX[vIdx][aIdx]
+      });
+
+      retentionData.sort((a, b) => b.value - a.value);
+
+      document.getElementById('retention-title').textContent = t.lang === 'en' ? 'Retention Scoreboard 2026' : 'Tryggðartöflun 2026';
+      
+      let html = '<table class="retention-grid">';
+      retentionData.forEach((d, i) => {
+        html += `
+          <tr>
+            <td class="rank">${i + 1}</td>
+            <td class="party-cell">
+              <span class="party-dot" style="background: ${d.color}"></span>
+              ${d.name}
+            </td>
+            <td class="bar-cell">
+              <div class="bar-bg">
+                <div class="bar-fill" style="width: ${d.value}%; background: ${d.color}"></div>
+              </div>
+            </td>
+            <td class="value-cell">${d.value}%</td>
+          </tr>
+        `;
+      });
+      html += '</table>';
+      container.innerHTML = html;
+    }
+  </script>
+
+</body>
+</html>
