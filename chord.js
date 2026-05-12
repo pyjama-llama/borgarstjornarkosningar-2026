@@ -218,12 +218,13 @@ export function initChord(t) {
     .attr('stroke-width', 2)
     .attr('marker-end', 'url(#arrowhead)');
 
+  const isMobile = window.innerWidth < 640;
   guideGrp.append('text')
-    .attr('x', startX)
-    .attr('y', startY - 10)
+    .attr('x', isMobile ? 0 : startX) // Center it on mobile to prevent clipping
+    .attr('y', isMobile ? -innerR + 40 : startY - 10)
     .attr('fill', 'var(--text-primary)')
     .attr('font-family', '"Caveat", cursive')
-    .attr('font-size', window.innerWidth < 600 ? '20px' : '26px')
+    .attr('font-size', isMobile ? '18px' : '26px')
     .style('text-anchor', 'middle')
     .text(new URLSearchParams(window.location.search).get('lang') === 'en' ? 'Hover to see flows' : 'Sveimaðu yfir til að sjá flæðið');
 
@@ -424,7 +425,9 @@ export function applyFilter(filter, t) {
       // Don't label self-loops
       if (d.source.index === d.target.index) return 0;
       // Don't label minor flows to prevent text overlap
-      if (d.source.value < 5) return 0;
+      const isMobile = window.innerWidth < 640;
+      const threshold = isMobile ? 8 : 5; // Stricter threshold on mobile
+      if (d.source.value < threshold) return 0;
       // Show label if chord starts or ends at the selected party
       return (d.source.index === idx || d.target.index === idx) ? 1 : 0;
     });

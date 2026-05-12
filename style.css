@@ -492,13 +492,16 @@ p { color: var(--text-muted); }
   }
 
   #chart-sticky {
-    position: relative;
+    position: sticky;
+    top: 0;
     width: 100%;
-    height: auto;
+    height: 50vh; /* Fixed height for the chart area on mobile */
+    min-height: 300px;
     border-right: none;
     border-bottom: 1px solid var(--border);
-    padding: 1.25rem;
-    top: 0;
+    padding: 1rem;
+    z-index: 10;
+    background: var(--bg);
   }
 
   #chart-svg-wrapper {
