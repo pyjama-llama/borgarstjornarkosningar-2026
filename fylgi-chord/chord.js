@@ -143,6 +143,49 @@ export function initChord(t) {
       .text(`${MATRIX[d.index][d.index]}%`);
   });
 
+  // ── Hover Guide (Arrow) ────────────────────────────────────────────────────
+  const defs = svg.append('defs');
+  defs.append('marker')
+    .attr('id', 'arrowhead')
+    .attr('viewBox', '0 -5 10 10')
+    .attr('refX', 8)
+    .attr('refY', 0)
+    .attr('markerWidth', 6)
+    .attr('markerHeight', 6)
+    .attr('orient', 'auto')
+    .append('path')
+      .attr('d', 'M0,-5L10,0L0,5')
+      .attr('fill', 'var(--text-muted)');
+
+  const guideGrp = svg.append('g')
+    .attr('id', 'hover-guide-arrow')
+    .style('opacity', 0)
+    .style('pointer-events', 'none');
+
+  const startX = -innerRadius * 0.9;
+  const startY = -innerRadius * 0.8;
+  const cX = -innerRadius * 0.4;
+  const cY = -innerRadius * 0.9;
+  const endX = -innerRadius * 0.3;
+  const endY = -innerRadius * 0.4;
+
+  guideGrp.append('path')
+    .attr('d', `M ${startX},${startY} Q ${cX},${cY} ${endX},${endY}`)
+    .attr('fill', 'none')
+    .attr('stroke', 'var(--text-muted)')
+    .attr('stroke-width', 2)
+    .attr('marker-end', 'url(#arrowhead)');
+
+  guideGrp.append('text')
+    .attr('x', startX - 10)
+    .attr('y', startY - 10)
+    .attr('fill', 'var(--text-primary)')
+    .attr('font-family', 'Faustina, serif')
+    .attr('font-size', window.innerWidth < 600 ? '16px' : '20px')
+    .attr('font-style', 'italic')
+    .style('text-anchor', 'middle')
+    .text(t.lang === 'en' ? 'Hover to see flows' : 'Sveimaðu yfir til að sjá flæðið');
+
   // ── Ribbons ────────────────────────────────────────────────────────────────
   const r = svg.append('g').attr('class', 'chord-ribbons');
 
@@ -162,6 +205,30 @@ export function initChord(t) {
       .on('mousemove',  onRibbonMove)
       .on('mouseleave', onRibbonLeave);
 
+  // ── Chord Labels (Hidden by default) ───────────────────────────────────────
+  svg.append('g').attr('class', 'chord-labels')
+    .selectAll('text')
+    .data(chordData)
+    .join('text')
+      .attr('class', 'chord-data-label')
+      .attr('x', d => {
+        const angle = (d.source.startAngle + d.source.endAngle) / 2;
+        return (innerRadius - 40) * Math.sin(angle);
+      })
+      .attr('y', d => {
+        const angle = (d.source.startAngle + d.source.endAngle) / 2;
+        return -(innerRadius - 40) * Math.cos(angle);
+      })
+      .text(d => `${d.source.value}%`)
+      .attr('fill', 'var(--surface-1)')
+      .style('font-family', 'IBM Plex Mono, monospace')
+      .style('font-size', '11px')
+      .style('font-weight', '600')
+      .style('text-anchor', 'middle')
+      .style('dominant-baseline', 'middle')
+      .style('pointer-events', 'none')
+      .style('opacity', 0);
+
   // ── Tooltip ────────────────────────────────────────────────────────────────
   initTooltip();
 
@@ -179,6 +246,12 @@ export function applyBeat(beatIndex, animate = true) {
   const filterBar = document.getElementById('filter-bar');
   if (filterBar) {
     filterBar.classList.toggle('visible', !!beat.interactive);
+  }
+
+  // Show hover guide only on the interactive beat (if it hasn't been removed)
+  const guide = d3.select('#hover-guide-arrow');
+  if (!guide.empty()) {
+    guide.transition().duration(dur).style('opacity', beat.interactive ? 1 : 0);
   }
 
   switch (beat.type) {
@@ -322,15 +395,19 @@ export function applyFilter(filter, t) {
         !top3Idxs || top3Idxs.has(d.index) ? 1 : 0.3
       );
 
-    d3.selectAll('.arc-label').transition().duration(400)
-      .style('opacity', function() {
-        if (!top3Idxs) return 1;
-        const id = this.dataset.party;
-        const i  = PARTIES.findIndex(p => p.id === id);
-        return top3Idxs.has(i) ? 1 : 0.25;
-      });
-    return;
-  }
+      d3.selectAll('.arc-label').transition().duration(400)
+        .style('opacity', function() {
+          if (!top3Idxs) return 1;
+          const id = this.dataset.party;
+          const i  = PARTIES.findIndex(p => p.id === id);
+          return top3Idxs.has(i) ? 1 : 0.25;
+        });
+        
+      d3.selectAll('.chord-data-label').transition().duration(400)
+        .style('opacity', 0);
+        
+      return;
+    }
 
   // Individual party filter
   const idx = PARTIES.findIndex(p => p.id === filter);
@@ -347,6 +424,15 @@ export function applyFilter(filter, t) {
       const id = this.dataset.party;
       const i  = PARTIES.findIndex(p => p.id === id);
       return i === idx ? 1 : 0.25;
+    });
+
+  // Show data labels for connected chords
+  d3.selectAll('.chord-data-label').transition().duration(400)
+    .style('opacity', d => {
+      // Don't label self-loops
+      if (d.source.index === d.target.index) return 0;
+      // Show label if chord starts or ends at the selected party
+      return (d.source.index === idx || d.target.index === idx) ? 1 : 0;
     });
 }
 
@@ -368,6 +454,11 @@ function initTooltip() {
 }
 
 function onRibbonEnter(event, d) {
+  // Permanently remove the hover guide once the user successfully interacts
+  const guide = d3.select('#hover-guide-arrow');
+  if (!guide.empty()) {
+    guide.transition().duration(300).style('opacity', 0).remove();
+  }
   const tip     = document.getElementById('tooltip');
   const from    = PARTIES[d.source.index];
   const to      = PARTIES[d.target.index];
