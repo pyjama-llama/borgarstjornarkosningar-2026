@@ -173,7 +173,7 @@
 
       retentionData.sort((a, b) => b.value - a.value);
 
-      document.getElementById('retention-title').textContent = t.lang === 'en' ? 'Retention Scoreboard 2026' : 'Tryggðartala Tafla';
+      document.getElementById('retention-title').textContent = t.retentionTitle;
       
       let html = '<table class="retention-grid">';
       retentionData.forEach((d, i) => {

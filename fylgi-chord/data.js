@@ -55,7 +55,7 @@ export const i18n = {
       },
       {
         heading: 'Hverjir halda kjósendum sínum?',
-        body:    'Miðflokkurinn (81%) og Sjálfstæðisflokkurinn (73%) eru öflugastir í að halda í eigin kjósendur — svokölluð <strong><em>„Tryggðartala“</em></strong>. Samfylkingin (62%) á líka traustan kjósendahóp. Sósíalistaflokkurinn (16%) og Píratar (26%) eru hins vegar í erfiðari stöðu — kjósendur þeirra eru á hreyfingu.',
+        body:    'Miðflokkurinn (81%) og Sjálfstæðisflokkurinn (73%) eru öflugastir í að halda í eigin kjósendur — svokölluð <strong><em>„Tryggðartala“</em></strong><sup>1)</sup>. Samfylkingin (62%) á líka traustan kjósendahóp. Sósíalistaflokkurinn (16%) og Píratar (26%) eru hins vegar í erfiðari stöðu — kjósendur þeirra eru á hreyfingu.',
       },
       {
         heading: 'Framsóknarflokknum blæðir til hægri',
@@ -71,13 +71,15 @@ export const i18n = {
       },
     ],
     source: 'Gögn: <a href="https://heimildin.is/grein/26560/hvadan-kemur-fylgid/" target="_blank" style="color: inherit; text-decoration: underline;">Gallup apríl 2026 · Heimildin, 11. maí 2026</a>',
-    credit: 'Hannað og þróað af Victori Blæ<br><br><small>* Nafnið yfir þetta hugtak var fundið upp árið 2025 af hundinum mínum heitnum, Maximus. Hann hvílir nú í Valhöll, en fór á önnur tilverustig þann 1. júlí 2025.</small>',
+    credit: 'Hannað og þróað af victor.blaer@fyi-lab.is<br><br><small>1) Nafnið yfir þetta hugtak var fundið upp árið 2025 af hundinum mínum heitnum, Maximus. Hann hvílir nú í Valhöll, en fór á önnur tilverustig þann 1. júlí 2025.</small>',
     didNotVote: 'Kusu ekki',
     tooltipArrow: 'kustu → ætla að kjósa',
     filterAll:  'Allir',
     filterTop3: 'Efstu 3',
     btnVisit: 'Skoða fyi-lab.is',
     btnRestart: 'Byrja aftur',
+    retentionTitle: 'Tryggðartala Tafla',
+    retentionSub: 'Hversu stór hluti kjósenda hvers flokks frá 2022 ætlar að kjósa þann flokk (eða sambærilegt framboð) aftur?',
   },
 
   en: {
@@ -92,7 +94,7 @@ export const i18n = {
       },
       {
         heading: 'Who holds on to their voters?',
-        body:    'The Centre Party (81%) and Independence Party (73%) are strongest at retaining their 2022 voters — the so-called <strong><em>„Tryggðartala“</em></strong> (concept by Victor Blær). Social Democrats hold 62%. By contrast, the Socialist Party (16%) and Pirates (26%) are bleeding — their voters are looking elsewhere.',
+        body:    'The Centre Party (81%) and Independence Party (73%) are strongest at retaining their 2022 voters — the so-called <strong><em>"Retention Rate"</em></strong><sup>1)</sup>. Social Democrats hold 62%. By contrast, the Socialist Party (16%) and Pirates (26%) are bleeding — their voters are looking elsewhere.',
       },
       {
         heading: 'Progressive Party bleeding rightward',
@@ -108,13 +110,15 @@ export const i18n = {
       },
     ],
     source: 'Data: <a href="https://heimildin.is/grein/26560/hvadan-kemur-fylgid/" target="_blank" style="color: inherit; text-decoration: underline;">Gallup April 2026</a>',
-    credit: 'Designed and developed by Victor Blær<br><br><small>* The name for this concept was invented in 2025 by my late dog, Maximus. He now rests in Valhalla, having moved to a different plane of existence on July 1, 2025.</small>',
+    credit: 'Designed and developed by victor.blaer@fyi-lab.is<br><br><small>1) The name for this concept was invented in 2025 by my late dog, Maximus. He now rests in Valhalla, having moved to a different plane of existence on July 1, 2025.</small>',
     didNotVote: 'Did not vote',
     tooltipArrow: 'voted → intend to vote',
     filterAll:  'All',
     filterTop3: 'Top 3',
     btnVisit: 'Visit fyi-lab.is',
     btnRestart: 'Start Over',
+    retentionTitle: 'Retention Table',
+    retentionSub: 'What percentage of each party\'s 2022 voters intend to vote for that same party (or a comparable movement) again?',
   },
 };
 
