@@ -156,34 +156,6 @@ export function initChord(t) {
       .attr('d', 'M0,-5L10,0L0,5')
       .attr('fill', 'var(--text-muted)');
 
-  const guideGrp = svg.append('g')
-    .attr('id', 'hover-guide-arrow')
-    .style('opacity', 1)
-    .style('pointer-events', 'none');
-
-  const startX = -innerR * 0.9;
-  const startY = -innerR * 0.8;
-  const cX = -innerR * 0.4;
-  const cY = -innerR * 0.9;
-  const endX = -innerR * 0.3;
-  const endY = -innerR * 0.4;
-
-  guideGrp.append('path')
-    .attr('d', `M ${startX},${startY} Q ${cX},${cY} ${endX},${endY}`)
-    .attr('fill', 'none')
-    .attr('stroke', 'var(--text-muted)')
-    .attr('stroke-width', 2)
-    .attr('marker-end', 'url(#arrowhead)');
-
-  guideGrp.append('text')
-    .attr('x', startX - 10)
-    .attr('y', startY - 10)
-    .attr('fill', 'var(--text-primary)')
-    .attr('font-family', 'Faustina, serif')
-    .attr('font-size', window.innerWidth < 600 ? '16px' : '20px')
-    .attr('font-style', 'italic')
-    .text(new URLSearchParams(window.location.search).get('lang') === 'en' ? 'Hover to see flows' : 'Sveimaðu yfir til að sjá flæðið');
-
   // ── Ribbons ────────────────────────────────────────────────────────────────
   const r = svg.append('g').attr('class', 'chord-ribbons');
 
@@ -225,6 +197,35 @@ export function initChord(t) {
       .style('dominant-baseline', 'middle')
       .style('pointer-events', 'none')
       .style('opacity', 0);
+
+  // ── Hover Guide (Arrow) Group ──────────────────────────────────────────────
+  const guideGrp = svg.append('g')
+    .attr('id', 'hover-guide-arrow')
+    .style('opacity', 1)
+    .style('pointer-events', 'none');
+
+  const startX = -innerR * 0.9;
+  const startY = -innerR * 0.8;
+  const cX = -innerR * 0.4;
+  const cY = -innerR * 0.9;
+  const endX = -innerR * 0.3;
+  const endY = -innerR * 0.4;
+
+  guideGrp.append('path')
+    .attr('d', `M ${startX},${startY} Q ${cX},${cY} ${endX},${endY}`)
+    .attr('fill', 'none')
+    .attr('stroke', 'var(--text-muted)')
+    .attr('stroke-width', 2)
+    .attr('marker-end', 'url(#arrowhead)');
+
+  guideGrp.append('text')
+    .attr('x', startX - 10)
+    .attr('y', startY - 10)
+    .attr('fill', 'var(--text-primary)')
+    .attr('font-family', 'Faustina, serif')
+    .attr('font-size', window.innerWidth < 600 ? '16px' : '20px')
+    .attr('font-style', 'italic')
+    .text(new URLSearchParams(window.location.search).get('lang') === 'en' ? 'Hover to see flows' : 'Sveimaðu yfir til að sjá flæðið');
 
   // ── Tooltip ────────────────────────────────────────────────────────────────
   initTooltip();
