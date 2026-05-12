@@ -132,7 +132,7 @@ p { color: var(--text-muted); }
   z-index: 0;
   /* Use the user-provided electoral map */
   background-image: url('reykjavik.jpg');
-  background-position: center 30%; /* Shifted down to show city core instead of just the north edge */
+  background-position: center center; /* Centered to fit appropriately on both wide and tall screens */
   background-size: cover;
   background-repeat: no-repeat;
 }
